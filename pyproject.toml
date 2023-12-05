@@ -1,8 +1,11 @@
 [tool.poetry]
 name = "mmc"
 version = "0.1.0"
-description = ""
+description = "Minimal Mattermost API client"
 authors = ["Baptiste Fontaine <baptiste@bixoto.com>"]
+license = "MIT"
+include = ["mmc/py.typed"]
+homepage = "https://github.com/Bixoto/mmc"
 readme = "README.md"
 
 [tool.poetry.dependencies]
