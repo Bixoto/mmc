@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "mmc"
+version = "0.1.0"
+description = ""
+authors = ["Baptiste Fontaine <baptiste@bixoto.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+api-session = "^1.3.5"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.7.1"
+pytest = "^7.4.3"
+pytest-cov = "^4.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
