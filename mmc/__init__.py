@@ -2,8 +2,9 @@ from typing import List, Iterable, Tuple
 
 from api_session import APISession, JSONDict
 
-__all__ = ["Mattermost"]
+__all__ = ["Mattermost", "__version__"]
 
+__version__ = "0.1.0"
 
 def ordered_items(response: JSONDict, items_keys: str) -> List[Tuple[str, JSONDict]]:
     return [
