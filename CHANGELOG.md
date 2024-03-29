@@ -1,5 +1,9 @@
 # mmc Changelog
 
+## Unreleased
+
+* Add `get_total_channels_count`, `get_total_posts_count`, `get_total_file_storage_usage_bytes`
+
 ## 0.1.0 (2023/12/06)
 
 Initial public release.
