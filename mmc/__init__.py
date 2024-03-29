@@ -62,6 +62,10 @@ class Mattermost(APISession):
         """Get all bots."""
         return self._get_paginated_entities("/bots", **kwargs)
 
+    def get_custom_emojis(self, **kwargs):
+        """Get all custom emojis."""
+        return self._get_paginated_entities("/emoji", **kwargs)
+
     def get_channel_posts(self, channel_id: str, *, per_page=100, before="") -> Iterable[JSONDict]:
         """Get all posts from a channel."""
         while True:
