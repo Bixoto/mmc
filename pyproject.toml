@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mmc"
-version = "0.1.0"
+version = "0.1.1"
 description = "Minimal Mattermost API client"
 authors = ["Baptiste Fontaine <baptiste@bixoto.com>"]
 license = "MIT"

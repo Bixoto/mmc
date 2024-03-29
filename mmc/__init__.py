@@ -4,7 +4,7 @@ from api_session import APISession, JSONDict
 
 __all__ = ["Mattermost", "__version__"]
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 
 def ordered_items(response: JSONDict, items_keys: str) -> List[Tuple[str, JSONDict]]:
