@@ -99,7 +99,7 @@ class Mattermost(APISession):
 
     def get_posts_by_ids(self, ids: List[str]) -> Iterable[JSONDict]:
         """Get posts by their IDs."""
-        posts: list[JSONDict] = self.post_api("/posts/ids", json=ids).json()
+        posts: List[JSONDict] = self.post_api("/posts/ids", json=ids).json()
         return posts
 
     def delete_post(self, post_id: str) -> Any:  # TODO: typing
