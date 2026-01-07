@@ -1,4 +1,4 @@
-from typing import List, Iterable, Tuple, Callable
+from typing import List, Iterable, Tuple, Callable, Any, Iterator, TypeVar
 
 from api_session import APISession, JSONDict
 
@@ -14,15 +14,18 @@ def ordered_items(response: JSONDict, items_keys: str) -> List[Tuple[str, JSONDi
     ]
 
 
-def min_version(_version: str):
-    def decorator(fn: Callable):
+F = TypeVar("F", bound=Callable[..., Any])
+
+
+def min_version(_version: str) -> Callable[[F], F]:
+    def decorator(fn: F) -> F:
         return fn
 
     return decorator
 
 
 class Mattermost(APISession):
-    def __init__(self, domain: str, *, access_token: str, https=True, **kwargs):
+    def __init__(self, domain: str, *, access_token: str, https: bool = True, **kwargs: Any):
         protocol = "https" if https else "http"
         self.public_url = f"{protocol}://{domain}"
 
@@ -30,11 +33,11 @@ class Mattermost(APISession):
         self.headers["Authorization"] = f"Bearer {access_token}"
         self.domain = domain
 
-    def get_post_url(self, team_slug: str, post_id: str):
+    def get_post_url(self, team_slug: str, post_id: str) -> str:
         """Return a post URL given the team slug and the post ID."""
         return f"{self.public_url}/{team_slug}/pl/{post_id}"
 
-    def _get_paginated_entities(self, endpoint: str, **params):
+    def _get_paginated_entities(self, endpoint: str, **params: Any) -> Iterator[JSONDict]:
         params = dict(params)
         page = params.get("page", 0)
         while True:
@@ -45,28 +48,33 @@ class Mattermost(APISession):
             else:
                 return
 
-    def get_teams(self) -> Iterable[JSONDict]:
+    def get_teams(self) -> Iterator[JSONDict]:
         """Get all teams."""
-        return self._get_paginated_entities("/teams")
+        teams: Iterator[JSONDict] = self._get_paginated_entities("/teams")
+        return teams
 
-    def get_channels(self, **kwargs) -> Iterable[JSONDict]:
+    def get_channels(self, **kwargs: Any) -> Iterator[JSONDict]:
         """Get all channels."""
-        return self._get_paginated_entities("/channels", **kwargs)
+        channels: Iterator[JSONDict] = self._get_paginated_entities("/channels", **kwargs)
+        return channels
 
-    def get_users(self, **kwargs) -> Iterable[JSONDict]:
+    def get_users(self, **kwargs: Any) -> Iterator[JSONDict]:
         """Get all users."""
-        return self._get_paginated_entities("/users", **kwargs)
+        users: Iterator[JSONDict] = self._get_paginated_entities("/users", **kwargs)
+        return users
 
     @min_version("5.10")
-    def get_bots(self, **kwargs) -> Iterable[JSONDict]:
+    def get_bots(self, **kwargs: Any) -> Iterator[JSONDict]:
         """Get all bots."""
-        return self._get_paginated_entities("/bots", **kwargs)
+        bots: Iterator[JSONDict] = self._get_paginated_entities("/bots", **kwargs)
+        return bots
 
-    def get_custom_emojis(self, **kwargs):
+    def get_custom_emojis(self, **kwargs: Any) -> Iterator[JSONDict]:
         """Get all custom emojis."""
-        return self._get_paginated_entities("/emoji", **kwargs)
+        custom_emojis: Iterator[JSONDict] = self._get_paginated_entities("/emoji", **kwargs)
+        return custom_emojis
 
-    def get_channel_posts(self, channel_id: str, *, per_page=100, before="") -> Iterable[JSONDict]:
+    def get_channel_posts(self, channel_id: str, *, per_page: int = 100, before: str = "") -> Iterator[JSONDict]:
         """Get all posts from a channel."""
         while True:
             resp = self.get_json_api(f"/channels/{channel_id}/posts",
@@ -91,16 +99,17 @@ class Mattermost(APISession):
 
     def get_posts_by_ids(self, ids: List[str]) -> Iterable[JSONDict]:
         """Get posts by their IDs."""
-        return self.post_api("/posts/ids", json=ids).json()
+        posts: list[JSONDict] = self.post_api("/posts/ids", json=ids).json()
+        return posts
 
-    def delete_post(self, post_id: str):
+    def delete_post(self, post_id: str) -> Any:  # TODO: typing
         """Delete a post."""
         return self.delete_api(f"/posts/{post_id}", throw=True).json()
 
     # Usage
     # =====
 
-    def get_total_channels_count(self, include_deleted=False, **kwargs) -> int:
+    def get_total_channels_count(self, include_deleted: bool = False, **kwargs: Any) -> int:
         """Return the total channels count, for all teams."""
         kwargs.setdefault("params", {})
         kwargs["params"].update({
@@ -110,14 +119,17 @@ class Mattermost(APISession):
         })
 
         payload = self.get_json_api("/channels", **kwargs)
-        return payload["total_count"]
+        total_count: int = payload["total_count"]
+        return total_count
 
     @min_version("7.0")
-    def get_total_posts_count(self, **kwargs) -> int:
+    def get_total_posts_count(self, **kwargs: Any) -> int:
         """Return the total posts count, for all teams."""
-        return self.get_json_api("/usage/posts", **kwargs)["count"]
+        posts_count: int = self.get_json_api("/usage/posts", **kwargs)["count"]
+        return posts_count
 
     @min_version("7.1")
-    def get_total_file_storage_usage_bytes(self, **kwargs) -> int:
+    def get_total_file_storage_usage_bytes(self, **kwargs: Any) -> int:
         """Return the total file storage usage, in bytes."""
-        return self.get_json_api("/usage/storage", **kwargs)["bytes"]
+        total_bytes: int = self.get_json_api("/usage/storage", **kwargs)["bytes"]
+        return total_bytes
