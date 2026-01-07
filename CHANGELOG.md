@@ -1,5 +1,11 @@
 # mmc Changelog
 
+## 0.1.2 (2026/01/07)
+
+* Support Python 3.13 and 3.14
+* Add full type hints
+* Bump [`api-session`](https://github.com/Bixoto/api-session) to 1.4
+
 ## 0.1.1 (2024/03/29)
 
 * Add `get_custom_emojis`
