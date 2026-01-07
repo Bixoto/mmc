@@ -33,13 +33,9 @@ jobs:
         run: |
           poetry install
 
-      - name: Lint with Mypy
-        run: |
-          poetry run mypy mmc
-
       - name: Run Tests
         run: |
-          poetry run pytest -v
+          ./ci.sh
 
       - name: Test build
         run: |
