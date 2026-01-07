@@ -7,6 +7,8 @@ uses.
 
     pip install mmc
 
+Requirement: Python 3.8+.
+
 ## Usage
 
 ```python
