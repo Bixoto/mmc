@@ -1,5 +1,10 @@
 # mmc Changelog
 
+## 0.2.0 (unreleased)
+
+* Drop support for Python 3.8
+* Manage the project with uv instead of poetry
+
 ## 0.1.2 (2026/01/07)
 
 * Support Python 3.13 and 3.14

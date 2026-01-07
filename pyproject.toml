@@ -1,12 +1,12 @@
 [project]
 name = "mmc"
-version = "0.1.2"
+version = "0.2.0"
 description = "Minimal Mattermost API client"
 authors = [{ name = "Baptiste Fontaine", email = "baptiste@bixoto.com" }]
-requires-python = ">=3.8,<4"
+requires-python = ">=3.9,<4"
 readme = "README.md"
 license = "MIT"
-dependencies = ["api-session>=1.4.3,<2"]
+dependencies = ["api-session>=1.5.1,<2"]
 
 [project.urls]
 Homepage = "https://github.com/Bixoto/mmc"
@@ -14,8 +14,8 @@ Homepage = "https://github.com/Bixoto/mmc"
 [dependency-groups]
 dev = [
     "mypy>=1,<2",
-    "pytest>=8,<9",
-    "pytest-cov>=5,<6",
+    "pytest>=8,<9", # 9.x requires Python 3.10
+    "pytest-cov>=7,<8", # 8.x requires Python 3.10
     "ruff>=0,<1",
 ]
 
@@ -28,5 +28,6 @@ build-backend = "hatchling.build"
 
 [tool.ruff]
 line-length = 120
-target-version = "py38"
+target-version = "py39"
+[tool.ruff.lint]
 ignore-init-module-imports = true

@@ -7,7 +7,9 @@ uses.
 
     pip install mmc
 
-Requirement: Python 3.8+.
+Requirement: Python 3.9+.
+
+For Python 3.8, use version 0.1.2.
 
 ## Usage
 
