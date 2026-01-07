@@ -7,32 +7,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # https://docs.pypi.org/trusted-publishers/using-a-publisher/
-    environment: release
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
-      - name: Install Poetry
-        run: |
-          pipx install poetry
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up uv and Python 3.10
+        uses: astral-sh/setup-uv@v7
         with:
-          python-version: '3.9'
-          cache: 'poetry'
-
-      - name: Install dependencies
-        run: |
-          poetry install
+          python-version: '3.10'
 
       - name: Build
-        run: |
-          poetry build
+        run: uv build
 
-      - name: Publish to pypi
-        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Publish
+        run: uv publish --token ${{ secrets.PYPI_TOKEN }}
+

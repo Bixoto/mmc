@@ -1,27 +1,30 @@
-[tool.poetry]
+[project]
 name = "mmc"
 version = "0.1.2"
 description = "Minimal Mattermost API client"
-authors = ["Baptiste Fontaine <baptiste@bixoto.com>"]
-license = "MIT"
-include = ["mmc/py.typed"]
-homepage = "https://github.com/Bixoto/mmc"
+authors = [{ name = "Baptiste Fontaine", email = "baptiste@bixoto.com" }]
+requires-python = ">=3.8,<4"
 readme = "README.md"
+license = "MIT"
+dependencies = ["api-session>=1.4.3,<2"]
 
-[tool.poetry.dependencies]
-python = "^3.8"
-api-session = "^1.4.3" # 1.5.0+ is not compatible with Python 3.8
+[project.urls]
+Homepage = "https://github.com/Bixoto/mmc"
 
+[dependency-groups]
+dev = [
+    "mypy>=1,<2",
+    "pytest>=8,<9",
+    "pytest-cov>=5,<6",
+    "ruff>=0,<1",
+]
 
-[tool.poetry.group.dev.dependencies]
-mypy = "^1"
-pytest = "^8"
-pytest-cov = "^5" # 6.x+ is not compatible with Python 3.8
-ruff = "^0"
+[tool.hatch.build.targets.sdist.force-include]
+"mmc/py.typed" = "mmc/py.typed"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.ruff]
 line-length = 120
